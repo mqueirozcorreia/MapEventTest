@@ -28,23 +28,31 @@
 
         function dateTimeDiffInfo(eventTime) {
 
-var dateTimeDiff = eventTime - new Date();
+            console.log(eventTime);
+            var dateTimeDiff = new Date(eventTime) - new Date();
 
-return {days : Math.floor(dateTimeDiff / 86400000), // days
-    hours : Math.floor((dateTimeDiff % 86400000) / 3600000), // hours
-    minutes : Math.round(((dateTimeDiff % 86400000) % 3600000) / 60000)  // minutes
-};
-}
+            var dateTimeInfo = {days : Math.floor(dateTimeDiff / 86400000), // days
+                hours : Math.floor((dateTimeDiff % 86400000) / 3600000), // hours
+                minutes : Math.round(((dateTimeDiff % 86400000) % 3600000) / 60000)  // minutes
+            };
+            console.log(dateTimeInfo);
+
+            return dateTimeInfo;
+        }
 
         function getHtmlInfo(location) {
 
-            var diffInfo = dateTimeDiffInfo(location.finishDateTime);
+            var diffInfo = dateTimeDiffInfo(location.termino);
             var diffMessage;
 
             if (diffInfo.days > 0)
             {
                 diffMessage = diffInfo.days + ' dia(s)';
             }            
+            else if (diffInfo.hours > 0)
+            {
+                diffMessage = diffInfo.hours + ' hora(s)'
+            }
             else if (diffInfo.minutes > 0)
             {
                 diffMessage = diffInfo.minutes + ' minuto(s)'
@@ -52,16 +60,22 @@ return {days : Math.floor(dateTimeDiff / 86400000), // days
 
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-        return '<div id="content">'+
+        var html = '<div id="content">'+
             '<div id="siteNotice">'+
             '</div>'+
-            '<h1 id="firstHeading" class="firstHeading">' + location.name + '</h1>'+
-            '<div id="bodyContent">'+
-            '<p>Pessoas : <b>' + location.people + '</b><br />' +
-            'Término : <b>' + location.finishDateTime.format('dddd, D/MM HH:mm') + ' em ' + diffMessage + ' </b>' +
+            '<h1 id="firstHeading" class="firstHeading">' + location.evento + '</h1>'+
+            '<div id="bodyContent">';
+
+        if (location.publico) {
+            html = html + '<p>Pessoas : <b>' + location.publico + '</b><br />';
+        }
+
+        html = html + 'Término : <b>' + moment(location.termino).format('dddd, D/MM HH:mm') + ' em ' + diffMessage + ' </b>' +
             ' </p>'+
             '</div>'+
             '</div>';
+
+        return html;
       }
 
       function initMap() {
@@ -75,11 +89,19 @@ return {days : Math.floor(dateTimeDiff / 86400000), // days
         var locationsFiltered = locations.filter(locationFilter);
 
         function locationFilter(location) {
-            var dateTimeDiff = location.finishDateTime - new Date();
+            var dateTimeDiff = location.termino - new Date();
             var diffMinutes = parseInt((dateTimeDiff)/1000/60);
             
             //Se tiver mais de 10 minutos do término, filtra também
-            return diffMinutes > -30;
+            if (diffMinutes < -30 ||
+                diffMinutes > 60)
+                return false;
+
+            if (!location.latitude ||
+                !location.longitude)
+                return false;
+
+            return true;
         }    
 
         // Add some markers to the map.
@@ -88,11 +110,12 @@ return {days : Math.floor(dateTimeDiff / 86400000), // days
         // The map() method here has nothing to do with the Google Maps API.
         var markers = locationsFiltered.map(function(location, i) {
             var infowindow = new google.maps.InfoWindow({
-          content: getHtmlInfo(location)
+            content: getHtmlInfo(location)
         });
 
         var marker = new google.maps.Marker({
-            position: location.position,
+            position: {lat: location.latitude,
+                lng: location.longitude},
             title: getHtmlInfo(location)
           });
 
@@ -100,9 +123,23 @@ return {days : Math.floor(dateTimeDiff / 86400000), // days
           infowindow.open(map, marker);
         });
 
-          return marker;
+        function ensureCurrentUserLocationSet() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(setCurrentUserLocation);
+            }
+        }
+        
+        function setCurrentUserLocation(position) {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+            map.setCenter(new google.maps.LatLng(lat, lng));
+        }
 
-        });
+        ensureCurrentUserLocationSet();
+
+        return marker;
+
+    });
 
         // Add a marker clusterer to manage the markers.
         var markerCluster = new MarkerClusterer(map, markers,
