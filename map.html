@@ -19,7 +19,8 @@
     </style>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/locale/pt-br.js"></script>
-     <script src="locations.js"></script> 
+     <script src="locations.js?version=1"></script> 
+     <script src="mapsStyle.js"></script> 
   </head>
   <body>
     <div id="map"></div>
@@ -42,11 +43,11 @@ return {days : Math.floor(dateTimeDiff / 86400000), // days
 
             if (diffInfo.days > 0)
             {
-                diffMessage = diffInfo.days + 'dia(s)';
+                diffMessage = diffInfo.days + ' dia(s)';
             }            
             else if (diffInfo.minutes > 0)
             {
-                diffMessage = diffInfo.minutes + 'minuto(s)'
+                diffMessage = diffInfo.minutes + ' minuto(s)'
             }
 
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -67,7 +68,8 @@ return {days : Math.floor(dateTimeDiff / 86400000), // days
 
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 14,
-          center: {lat: -19.9351086, lng: -43.9382402}
+          center: {lat: -19.9351086, lng: -43.9382402},
+          styles: googleMapStyle
         });
 
         var locationsFiltered = locations.filter(locationFilter);
