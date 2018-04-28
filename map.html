@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Hub Conexão</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+     <script src="locations.js"></script> 
+     <script src="googlekey.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+        var googleMapScript = document.createElement('script');
+        googleMapScript.setAttribute('src','https://maps.googleapis.com/maps/api/js?key=' + googleKey + '&callback=initMap');
+        document.head.appendChild(googleMapScript);
+
+        function getHtmlInfo(location) {
+        return '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">' + location.name + '</h1>'+
+            '<div id="bodyContent">'+
+            '<p>Pessoas : <b>' + location.people + '</b><br />' +
+            'Término : <b>' + location.finishDateTime + '</b>' +
+            ' </p>'+
+            '</div>'+
+            '</div>';
+      }
+
+      function initMap() {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 14,
+          center: {lat: -19.9351086, lng: -43.9382402}
+        });
+
+        // Add some markers to the map.
+        // Note: The code uses the JavaScript Array.prototype.map() method to
+        // create an array of markers based on a given "locations" array.
+        // The map() method here has nothing to do with the Google Maps API.
+        var markers = locations.map(function(location, i) {
+            var infowindow = new google.maps.InfoWindow({
+          content: getHtmlInfo(location)
+        });
+
+        var marker = new google.maps.Marker({
+            position: location.position,
+            title: getHtmlInfo(location)
+          });
+
+          marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+
+          return marker;
+
+        });
+
+        // Add a marker clusterer to manage the markers.
+        var markerCluster = new MarkerClusterer(map, markers,
+            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+      }
+    </script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+    </script>
+  </body>
+</html>

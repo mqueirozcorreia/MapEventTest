@@ -1,0 +1,23 @@
+2018-04-28T19:35:33.109Z - info:   [10688] *** FOLDER: c:\Users\mateus.queiroz\Documents\StartupWeekend ***
+2018-04-28T19:35:33.113Z - info:   [10688] VSTSVSCode/1.133.0 (VSCode 1.22.2; Windows_NT 6.3.9600; Node 7.9.0)
+2018-04-28T19:35:33.115Z - debug:  [10688] Looking for an External Context at c:\Users\mateus.queiroz\Documents\StartupWeekend
+2018-04-28T19:35:33.115Z - debug:  [10688] No External Context at c:\Users\mateus.queiroz\Documents\StartupWeekend
+2018-04-28T19:35:33.119Z - debug:  [10688] Looking for TFVC repository at c:\Users\mateus.queiroz\Documents\StartupWeekend
+2018-04-28T19:35:33.120Z - debug:  [10688] TFVC Creating Tfvc object with localPath='undefined'
+2018-04-28T19:35:33.121Z - debug:  [10688] Using TFS proxy: 
+2018-04-28T19:35:33.122Z - debug:  [10688] TFVC Retrieved from settings; localPath='C:\Program Files (x86)\Microsoft Visual Studio\2017\TeamExplorer\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\TF.exe'
+2018-04-28T19:35:33.123Z - debug:  [10688] TFVC Repository created with repositoryRootFolder='c:\Users\mateus.queiroz\Documents\StartupWeekend'
+2018-04-28T19:35:33.124Z - debug:  [10688] TFVC Repository.CheckVersion
+2018-04-28T19:35:33.127Z - debug:  [10688] TFVC: tf add -noprompt -?
+2018-04-28T19:35:33.152Z - debug:  [10688] TFVC: spawned new process (duration: 24ms)
+2018-04-28T19:35:33.169Z - debug:  [10688] TFVC: spawned new process (duration: 17ms)
+2018-04-28T19:35:37.006Z - debug:  [10688] TFVC: add exit code: 0 (duration: 3879ms)
+2018-04-28T19:35:37.008Z - debug:  [10688] TFVC Minimum required version: 14.102.0
+2018-04-28T19:35:37.008Z - debug:  [10688] TFVC (TF.exe, TF.cmd) version: 15.117.26914.0
+2018-04-28T19:35:37.009Z - debug:  [10688] TFVC Repository.FindWorkspace with localPath='c:\Users\mateus.queiroz\Documents\StartupWeekend'
+2018-04-28T19:35:37.010Z - debug:  [10688] TFVC: tf workfold -noprompt c:\Users\mateus.queiroz\Documents\StartupWeekend
+2018-04-28T19:35:37.025Z - debug:  [10688] TFVC: spawned new process (duration: 14ms)
+2018-04-28T19:35:38.253Z - debug:  [10688] TFVC: workfold exit code: 100 (duration: 1243ms)
+2018-04-28T19:35:38.256Z - debug:  [10688] TFVC errors (via stderr): Unable to determine the workspace. You may be able to correct this by running 'tf workspaces /collection:TeamProjectCollectionUrl'.
+
+2018-04-28T19:35:38.257Z - error:  [10688] Execution of the TFVC command line failed unexpectedly.
