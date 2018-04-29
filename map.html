@@ -64,10 +64,18 @@
             '<div id="siteNotice">'+
             '</div>'+
             '<h1 id="firstHeading" class="firstHeading">' + location.evento + '</h1>'+
-            '<div id="bodyContent">';
+            '<div id="bodyContent"><p>';
 
         if (location.publico) {
-            html = html + '<p>Pessoas : <b>' + location.publico + '</b><br />';
+            html = html + 'Pessoas : <b>' + location.publico + '</b><br />';
+        }
+
+        if (location.local) {
+            html = html + 'Local : <b>' + location.local + '</b><br />';
+        }
+
+        if (location.endereco) {
+            html = html + 'Endereço : <b>' + location.endereco + '</b><br />';
         }
 
         html = html + 'Término : <b>' + moment(location.termino).format('dddd, D/MM HH:mm') + ' em ' + diffMessage + ' </b>' +
@@ -89,12 +97,14 @@
         var locationsFiltered = locations.filter(locationFilter);
 
         function locationFilter(location) {
-            var dateTimeDiff = location.termino - new Date();
+            var dateTimeDiff = new Date(location.termino) - new Date();
             var diffMinutes = parseInt((dateTimeDiff)/1000/60);
+
+            console.log(diffMinutes);
             
             //Se tiver mais de 10 minutos do término, filtra também
             if (diffMinutes < -30 ||
-                diffMinutes > 60)
+                diffMinutes > 360)
                 return false;
 
             if (!location.latitude ||
